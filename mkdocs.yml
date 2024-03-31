@@ -1,0 +1,19 @@
+site_name: L-System
+
+theme:
+  name: "material"
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+  - mkdocstrings
+
+nav:
+  - L System Docs: index.md
+  - How-To Guides: how-to-guides.md
+  - Code Reference: reference/
