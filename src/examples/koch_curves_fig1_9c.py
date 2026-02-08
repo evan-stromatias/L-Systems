@@ -8,23 +8,17 @@ Section 1.3
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
-class KochCurvesFig19a(Lsystem):
-    """Figure 1.9a"""
+class KochCurvesFig19c(Lsystem):
+    """Figure 1.9c"""
 
     axiom = 'F-F-F-F'
     productions = {
-        'F': 'FF-F-F-F-F-F+F',
+        'F': 'FF-F+F-F-FF',
     }
-    recursions = 4
-    forward_step = 8
+    recursions = 3
 
 
-if __name__ == '__main__':
-    lsystem = KochCurvesFig19a()
-    turtle_conf = TurtleConfiguration(initial_heading_angle=90)
-    renderer = LSystemRenderer(lsystem, turtle_conf)
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(initial_heading_angle=90)

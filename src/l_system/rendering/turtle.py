@@ -152,10 +152,6 @@ class LSystemTurtle(turtle.RawTurtle):
     def mainloop(self) -> None:
         self.screen.mainloop()
 
-    def bye(self) -> None:
-        # NOTE: Not exactly a drop-in replacement
-        self.screen.reset()
-
     def save_to_eps(self, save_to_eps_file: str) -> None:
         """
         Save the rendered graphics to an eps file.

@@ -37,8 +37,8 @@ Which yields the following animation:
 
 ![](figures/dragoncurve.gif)  
 
-More examples can be found in the `examples/` directory. 
+More examples can be found in the `src/examples/` directory. 
 Eg 
 ```shell
-poetry run python examples/dragon_curve.py
+poetry run python src/l_system
 ```

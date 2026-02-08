@@ -8,7 +8,6 @@ Section 1.4 Synthesis of DOL-systems
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
@@ -20,8 +19,4 @@ class HexagonalGosperCurve(Lsystem):
     recursions = 4
 
 
-if __name__ == '__main__':
-    lsystem = HexagonalGosperCurve()
-    turtle_conf = TurtleConfiguration(angle=60, turtle_move_mapper={'A': 'F', 'B': 'F'})
-    renderer = LSystemRenderer(lsystem, turtle_conf)
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(angle=60, turtle_move_mapper={'A': 'F', 'B': 'F'})

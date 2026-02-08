@@ -1,18 +1,62 @@
 import tkinter as tk
 import turtle
 from pathlib import Path
+from typing import List, Tuple
 
 import tqdm
+from examples import (
+    bracketed_ol_system_fig1_24a,
+    bracketed_ol_system_fig1_24b,
+    bracketed_ol_system_fig1_24c,
+    bracketed_ol_system_fig1_24d,
+    bracketed_ol_system_fig1_24f,
+    dragon_curve,
+    hexagonal_gosper_curve,
+    islands_and_lakes,
+    koch_curves_fig1_7b,
+    koch_curves_fig1_9a,
+    koch_curves_fig1_9b,
+    koch_curves_fig1_9c,
+    koch_curves_fig1_9d,
+    koch_curves_fig1_9e,
+    koch_curves_fig1_9f,
+    koch_island,
+    sierpinski_gask,
+)
 
 from l_system.base import Lsystem
 from l_system.rendering.turtle import LSystemTurtle, TurtleConfiguration
+
+Example = Tuple[Lsystem, TurtleConfiguration]
+
+EXAMPLES: List[Example] = [
+    (dragon_curve.DragonCurve(), dragon_curve.DEFAULT_TURTLE_CONFIG),
+    (sierpinski_gask.SierpinskiGask(), sierpinski_gask.DEFAULT_TURTLE_CONFIG),
+    (koch_island.KochIsland(), koch_island.DEFAULT_TURTLE_CONFIG),
+    (hexagonal_gosper_curve.HexagonalGosperCurve(), hexagonal_gosper_curve.DEFAULT_TURTLE_CONFIG),
+    (islands_and_lakes.IslandsAndLakes(), islands_and_lakes.DEFAULT_TURTLE_CONFIG),
+    (bracketed_ol_system_fig1_24a.BracketedOlSystemFig124a(), bracketed_ol_system_fig1_24a.DEFAULT_TURTLE_CONFIG),
+    (bracketed_ol_system_fig1_24b.BracketedOlSystemFig124b(), bracketed_ol_system_fig1_24b.DEFAULT_TURTLE_CONFIG),
+    (bracketed_ol_system_fig1_24c.BracketedOlSystemFig124c(), bracketed_ol_system_fig1_24c.DEFAULT_TURTLE_CONFIG),
+    (bracketed_ol_system_fig1_24d.BracketedOlSystemFig124d(), bracketed_ol_system_fig1_24d.DEFAULT_TURTLE_CONFIG),
+    (bracketed_ol_system_fig1_24f.BracketedOlSystemFig124f(), bracketed_ol_system_fig1_24f.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_7b.QuadraticSnowFlakeCurve(), koch_curves_fig1_7b.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9a.KochCurvesFig19a(), koch_curves_fig1_9a.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9b.KochCurvesFig19b(), koch_curves_fig1_9b.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9c.KochCurvesFig19c(), koch_curves_fig1_9c.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9d.KochCurvesFig19d(), koch_curves_fig1_9d.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9e.KochCurvesFig19e(), koch_curves_fig1_9e.DEFAULT_TURTLE_CONFIG),
+    (koch_curves_fig1_9f.KochCurvesFig19f(), koch_curves_fig1_9f.DEFAULT_TURTLE_CONFIG),
+]
+
+DEFAULT_L_SYSTEM, DEFAULT_TURTLE_CONFIG = EXAMPLES[0]
 
 
 class LSystemRenderer:
     def __init__(
         self,
-        l_system: Lsystem,
-        turtle_configuration: TurtleConfiguration,
+        l_system: Lsystem = DEFAULT_L_SYSTEM,
+        turtle_configuration: TurtleConfiguration = DEFAULT_TURTLE_CONFIG,
         title: str | None = None,
         width: int = 400,
         height: int = 400,
@@ -34,20 +78,40 @@ class LSystemRenderer:
         self._turtle_conf = turtle_configuration
 
         self.lsystem.apply()
+
+        # Initialize a root Tk to manage the canvas within this single `LSystemRenderer`
         self._root = tk.Tk()
+        self._root.option_add("*tearOff", tk.FALSE)
         self._canvas = turtle.ScrolledCanvas(self._root, width=width, height=height)
         self._canvas.pack(side=tk.LEFT)
-        self._screen = turtle.TurtleScreen(self._canvas)
-        self._screen.bgcolor(*self._turtle_conf.bg_color)
+
+        _screen = turtle.TurtleScreen(self._canvas)
+        _screen.bgcolor(*self._turtle_conf.bg_color)
 
         self._turtle = LSystemTurtle(
-            self._screen,
+            _screen,
             delta=self._turtle_conf.angle,
             forward_step=self._turtle_conf.forward_step,
             speed=self._turtle_conf.speed,
             heading=self._turtle_conf.initial_heading_angle,
             fg_color=self._turtle_conf.fg_color,
         )
+
+        # Add a menu to select from existing examples
+        menubar = tk.Menu(self._root)
+        self._root.config(menu=menubar)
+        file_menu = tk.Menu(menubar)
+
+        examples_menu = tk.Menu(file_menu)
+        for example in EXAMPLES:
+            lsystem, lsystem_config = example
+            examples_menu.add_command(label=lsystem.name())
+
+        file_menu.add_cascade(label="Select Example", menu=examples_menu)
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=self._root.destroy)
+
+        menubar.add_cascade(label="File", menu=file_menu, underline=0)
 
     def draw(self, animate: bool = True, save_to_eps_file: Path | None = None) -> None:
         """
@@ -70,7 +134,6 @@ class LSystemRenderer:
             self._turtle.mainloop()
         except (turtle.Terminator, tk.TclError):
             print("Exiting...")
-            self._turtle.bye()
 
     def _run_all_moves(self) -> None:
         """Runs all the `turtle` moves of the L-system."""
