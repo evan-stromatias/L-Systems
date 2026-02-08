@@ -34,16 +34,19 @@ class LSystemRenderer:
         self._turtle_conf = turtle_configuration
 
         self.lsystem.apply()
+        self._root = tk.Tk()
+        self._canvas = turtle.ScrolledCanvas(self._root, width=width, height=height)
+        self._canvas.pack(side=tk.LEFT)
+        self._screen = turtle.TurtleScreen(self._canvas)
+        self._screen.bgcolor(*self._turtle_conf.bg_color)
 
         self._turtle = LSystemTurtle(
-            self.width,
-            self.height,
+            self._screen,
             delta=self._turtle_conf.angle,
             forward_step=self._turtle_conf.forward_step,
             speed=self._turtle_conf.speed,
             heading=self._turtle_conf.initial_heading_angle,
             fg_color=self._turtle_conf.fg_color,
-            bg_color=self._turtle_conf.bg_color,
         )
 
     def draw(self, animate: bool = True, save_to_eps_file: Path | None = None) -> None:
@@ -76,7 +79,7 @@ class LSystemRenderer:
             total=len(self.lsystem),
             desc=f"Rendering L-System '{self.lsystem.name()}'",
         ):
-            self._turtle.set_title(f"{self.title} | {100*(i/len(self.lsystem)):.0f} %")
+            self._root.title(f"{self.title} | {100*(i/len(self.lsystem)):.0f} %")
             k = self._turtle_conf.turtle_move_mapper.get(l_str, l_str)
             self._turtle.move(k)
 
