@@ -1,5 +1,6 @@
 import tkinter as tk
 import turtle
+from functools import partial
 from pathlib import Path
 from typing import List, Tuple
 
@@ -75,27 +76,13 @@ class LSystemRenderer:
         self.title = title if title is not None else l_system.name()
         self.width = width
         self.height = height
-        self._turtle_conf = turtle_configuration
-
-        self.lsystem.apply()
 
         # Initialize a root Tk to manage the canvas within this single `LSystemRenderer`
         self._root = tk.Tk()
         self._root.option_add("*tearOff", tk.FALSE)
         self._canvas = turtle.ScrolledCanvas(self._root, width=width, height=height)
         self._canvas.pack(side=tk.LEFT)
-
-        _screen = turtle.TurtleScreen(self._canvas)
-        _screen.bgcolor(*self._turtle_conf.bg_color)
-
-        self._turtle = LSystemTurtle(
-            _screen,
-            delta=self._turtle_conf.angle,
-            forward_step=self._turtle_conf.forward_step,
-            speed=self._turtle_conf.speed,
-            heading=self._turtle_conf.initial_heading_angle,
-            fg_color=self._turtle_conf.fg_color,
-        )
+        self._screen = turtle.TurtleScreen(self._canvas)
 
         # Add a menu to select from existing examples
         menubar = tk.Menu(self._root)
@@ -105,13 +92,38 @@ class LSystemRenderer:
         examples_menu = tk.Menu(file_menu)
         for example in EXAMPLES:
             lsystem, lsystem_config = example
-            examples_menu.add_command(label=lsystem.name())
+            print(f"Registering L-System({lsystem.name()}) with turtle configuration: {lsystem_config}")
+            examples_menu.add_command(label=lsystem.name(), command=partial(self.set_system, lsystem, lsystem_config))
 
         file_menu.add_cascade(label="Select Example", menu=examples_menu)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self._root.destroy)
 
         menubar.add_cascade(label="File", menu=file_menu, underline=0)
+
+        self.set_system(l_system, turtle_configuration)
+
+    def set_system(self, l_system: Lsystem, turtle_config: TurtleConfiguration) -> None:
+        self._screen.clear()
+
+        self.lsystem = l_system
+        self._turtle_conf = turtle_config
+        print(f"Setting L-System({self.lsystem.name()}) with turtle configuration: {turtle_config}")
+
+        self._screen.bgcolor(*self._turtle_conf.bg_color)
+
+        self._turtle = LSystemTurtle(
+            self._screen,
+            delta=self._turtle_conf.angle,
+            forward_step=self._turtle_conf.forward_step,
+            speed=self._turtle_conf.speed,
+            heading=self._turtle_conf.initial_heading_angle,
+            fg_color=self._turtle_conf.fg_color,
+        )
+        self.title = self.lsystem.name()
+        self._root.title(self.title)
+        self.lsystem.apply()
+        self.draw()
 
     def draw(self, animate: bool = True, save_to_eps_file: Path | None = None) -> None:
         """
