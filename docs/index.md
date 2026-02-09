@@ -10,6 +10,8 @@ for rendering the L-Systems.
 :-------------------------:|:-------------------------:
 ![](figures/treed.gif)  |  ![](figures/treef.gif)
 
+![](figures/example_selection.gif)
+
 ## What is an L-System?
 
 _Taken from the [wikipedia](https://en.wikipedia.org/wiki/L-system) article_:
