@@ -6,11 +6,10 @@ for purely pedagogical purposes.
 L-Systems uses Python's [turtle graphics](https://docs.python.org/3/library/turtle.html) 
 for rendering the L-Systems.
 
-![](docs/figures/treea.gif)          | ![](docs/figures/treec.gif) 
-:-------------------------:|:-------------------------:
-![](docs/figures/treed.gif)  |  ![](docs/figures/treef.gif)
-
-![](figures/example_selection.gif)
+| ![](figures/treea.gif)          | ![](figures/treec.gif) |
+| :-------------------------:|:-------------------------: |
+| ![](figures/treed.gif)  |  ![](figures/treef.gif) |
+| ![](figures/example_selection.gif) | |
 
 ## What is an L-System?
 
@@ -39,7 +38,7 @@ $ brew install python-tk
 ```
 
 ## Installation
-To install `L-Sytems` run:
+To install `L-Systems` run:
 ```shell
 $ poetry install
 ```
