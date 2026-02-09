@@ -8,7 +8,6 @@ Section 1.3
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
@@ -21,8 +20,4 @@ class QuadraticSnowFlakeCurve(Lsystem):
     recursions = 4
 
 
-if __name__ == '__main__':
-    lsystem = QuadraticSnowFlakeCurve()
-    turtle_conf = TurtleConfiguration(angle=90, initial_heading_angle=90)
-    renderer = LSystemRenderer(lsystem, turtle_conf)
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(angle=90, initial_heading_angle=90)

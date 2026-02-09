@@ -55,12 +55,21 @@ To build and view the project's documentation:
 ```
 
 ## Run the Examples
-Example implementations of L-Systems can be found under the `examples/` directory. 
+Example implementations of L-Systems can be found under the `src/examples/` directory.
+
+By default, a `Dragon Curve` is rendered.
+Users may select pre-defined examples by selecting `File > Examples`.
 
 All examples have been taken from the book by Przemyslaw Prusinkiewicz, Aristid Lindenmayer –
     [The Algorithmic Beauty of Plants](https://en.wikipedia.org/wiki/The_Algorithmic_Beauty_of_Plants).
 ```shell
-poetry run python examples/bracketed_ol_system_fig1_24f.py
+poetry run python src/l_system/
+```
+
+Following `poetry install` a script entrypoint is provided with `l-system`. For instance,
+```shell
+l-system --help
+
 ```
 
 ## Licence 
