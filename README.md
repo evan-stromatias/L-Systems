@@ -66,6 +66,12 @@ All examples have been taken from the book by Przemyslaw Prusinkiewicz, Aristid 
 poetry run python src/l_system/
 ```
 
+Following `poetry install` a script entrypoint is provided with `l-system`. For instance,
+```shell
+l-system --help
+
+```
+
 ## Licence 
 The content of this site is distributed under [MIT NON-AI License](License.md).
 
