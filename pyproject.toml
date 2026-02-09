@@ -8,6 +8,13 @@ license = "MIT"
 readme = "README.md"
 keywords = ["l-system", "Lindenmayer"]
 
+[project]
+name = "l-system"
+dynamic = [ "version" ]
+
+[project.scripts]
+l-system = 'l_system.__main__:main'
+
 [tool.poetry.dependencies]
 python = "^3.12"
 tqdm = "^4.66.2"
