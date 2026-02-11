@@ -64,13 +64,11 @@ class TurtleBoundingBox:
         return astuple(self)
 
 
-class LSystemTurtle(turtle.Turtle):
+class LSystemTurtle(turtle.RawTurtle):
     def __init__(
         self,
-        window_width: int,
-        window_height: int,
+        screen: turtle.TurtleScreen,
         fg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
-        bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
         delta: float = 90,
         forward_step: int = 5,
         speed: int = 0,
@@ -86,30 +84,23 @@ class LSystemTurtle(turtle.Turtle):
             window_width: The turtle's window width.
             window_height: The turtle's window height.
             fg_color: The turtle's drawing color.
-            bg_color: The turtle's window background color.
             delta: The angle in degrees the turtle uses to rotate.
             forward_step: The amount of steps the turtle takes every time it moves forward.
             speed: How fast the turtle will draw things. Default value is `0` which is the fastest mode.
             heading: The initial heading of the turtle before starting to draw things on screen.
         """
-        super().__init__()
+        super().__init__(screen)
 
         self._delta = delta
         self._lspeed = speed
         self._heading = heading
         self._forward_step = forward_step
         self._fg_color = fg_color
-        self._bg_color = bg_color
-        self._wwidth = window_width
-        self._wheight = window_height
 
         self.bounding_box = TurtleBoundingBox(0, 0, 0, 0)
         self._state_stack = []
 
         self.reset()
-
-        turtle.Screen().setup(self._wwidth, self._wheight)
-        turtle.Screen().bgcolor(*self._bg_color)
 
         # all the available turtle moves are stored here.
         self._lsystem2turtle_map = {
@@ -156,22 +147,10 @@ class LSystemTurtle(turtle.Turtle):
 
     def update(self) -> None:
         """Update the screen."""
-        turtle.Screen().update()
-
-    def set_title(self, title: str) -> None:
-        """
-        Update the title of the rendering window.
-
-        Args:
-            title: The string of the new window title.
-        """
-        turtle.Screen().title(title)
+        self.screen.update()
 
     def mainloop(self) -> None:
-        turtle.mainloop()
-
-    def bye(self) -> None:
-        turtle.Screen().bye()
+        self.screen.mainloop()
 
     def save_to_eps(self, save_to_eps_file: str) -> None:
         """

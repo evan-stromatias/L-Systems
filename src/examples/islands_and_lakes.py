@@ -8,7 +8,6 @@ Section 1.3
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
@@ -20,8 +19,4 @@ class IslandsAndLakes(Lsystem):
     recursions = 2
 
 
-if __name__ == '__main__':
-    lsystem = IslandsAndLakes()
-    turtle_conf = TurtleConfiguration(forward_step=3)
-    renderer = LSystemRenderer(l_system=lsystem, turtle_configuration=turtle_conf, title="Islands and Lakes")
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(forward_step=3)

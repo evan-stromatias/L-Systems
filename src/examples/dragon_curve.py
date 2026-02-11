@@ -8,7 +8,6 @@ Section 1.4 Synthesis of DOL-systems
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
@@ -20,8 +19,4 @@ class DragonCurve(Lsystem):
     recursions = 10
 
 
-if __name__ == '__main__':
-    lsystem = DragonCurve()
-    turtle_conf = TurtleConfiguration(angle=90, turtle_move_mapper={'A': 'F', 'B': 'F'}, initial_heading_angle=90)
-    renderer = LSystemRenderer(lsystem, turtle_conf)
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(angle=90, turtle_move_mapper={'A': 'F', 'B': 'F'}, initial_heading_angle=90)

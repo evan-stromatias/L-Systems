@@ -1,12 +1,19 @@
 [tool.poetry]
 name = "l-system"
-version = "0.1.0"
+version = "0.2.0"
 description = "An Lindenmayer's L-system implementation for educational purposes."
 authors = ["Evan Stromatias <evangelos.stromatias@gmail.com>"]
 maintainers = ["Evan Stromatias <evangelos.stromatias@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 keywords = ["l-system", "Lindenmayer"]
+
+[project]
+name = "l-system"
+dynamic = [ "version" ]
+
+[project.scripts]
+l-system = 'l_system.__main__:main'
 
 [tool.poetry.dependencies]
 python = "^3.12"

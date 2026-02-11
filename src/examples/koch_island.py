@@ -8,22 +8,17 @@ Section 1.3
 """
 
 from l_system.base import Lsystem
-from l_system.rendering.renderer import LSystemRenderer
 from l_system.rendering.turtle import TurtleConfiguration
 
 
-class KochCurvesFig19b(Lsystem):
-    """Figure 1.9b"""
+class KochIsland(Lsystem):
+    """Figure 1.6: Generating a quadratic Koch island"""
 
     axiom = 'F-F-F-F'
     productions = {
-        'F': 'FF-F-F-F-FF',
+        'F': 'F-F+F+FF-F-F+F',
     }
-    recursions = 4
+    recursions = 3
 
 
-if __name__ == '__main__':
-    lsystem = KochCurvesFig19b()
-    turtle_conf = TurtleConfiguration(initial_heading_angle=90)
-    renderer = LSystemRenderer(lsystem, turtle_conf)
-    renderer.draw()
+DEFAULT_TURTLE_CONFIG = TurtleConfiguration(forward_step=3, angle=90)
