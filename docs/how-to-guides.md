@@ -19,7 +19,7 @@ class DragonCurve(Lsystem):
 
 ```
 
-Then the `` class can be used to render/animate an L-System along with some turtle graphics configuration:
+Then the `LSystemRenderer` class can be used to render/animate an L-System along with some turtle graphics configuration:
 
 ```python
 if __name__ == '__main__':
@@ -29,7 +29,8 @@ if __name__ == '__main__':
         turtle_move_mapper={'A': 'F', 'B': 'F'},  # a dictionary that maps L-System symbols to turtle moves.
         initial_heading_angle=90 # Initial direction of the turtle.
     )
-    renderer = LSystemRenderer(lsystem, turtle_conf)
+    global_settings = GlobalSettings(animate=True)
+    renderer = LSystemRenderer(global_settings, lsystem, turtle_conf)
     renderer.draw()
 ```
 
